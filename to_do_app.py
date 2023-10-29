@@ -3,7 +3,7 @@ while True:
     user_action = input('Type add, show, edit, complete or exit: ')
     user_action = user_action.strip()
 
-    if 'add' in user_action:
+    if user_action.startswith('add'):
         todo = user_action[4:] + '\n'
 
         with open('to_do_list.txt', 'r') as file:
@@ -14,7 +14,7 @@ while True:
         with open('to_do_list.txt', 'w') as file:
             file.writelines(todos)
 
-    elif 'show' in user_action:
+    elif user_action.startswith('show'):
         with open('to_do_list.txt', 'r') as file:
             todos = file.readlines()
 
@@ -22,36 +22,44 @@ while True:
             item = f'{index + 1}-{item}'.strip('\n')
             print(item)
 
-    elif 'edit' in user_action:
-        with open('to_do_list.txt', 'r') as file:
-            todos = file.readlines()
+    elif user_action.startswith('edit'):
+        try:
+            with open('to_do_list.txt', 'r') as file:
+                todos = file.readlines()
 
-        number = int(user_action[5:])
-        number -= 1
+            number = int(user_action[5:])
+            number -= 1
 
-        new_todo = input('Enter new to-do: ')
-        todos[number] = new_todo.title() + '\n'
+            new_todo = input('Enter new to-do: ')
+            todos[number] = new_todo.title() + '\n'
 
-        with open('to_do_list.txt', 'w') as file:
-            file.writelines(todos)
+            with open('to_do_list.txt', 'w') as file:
+                file.writelines(todos)
+        except ValueError:
+            print('Your command is not valid!')
+            continue
 
-    elif 'complete' in user_action:
-        with open('to_do_list.txt', 'r') as file:
-            todos = file.readlines()
+    elif user_action.startswith('complete'):
+        try:
+            with open('to_do_list.txt', 'r') as file:
+                todos = file.readlines()
 
-        number = user_action[9:]
-        index = int(number)
-        index -= 1
+            number = user_action[9:]
+            index = int(number)
+            index -= 1
 
-        to_complete = todos[index]
-        todos.pop(index)
+            to_complete = todos[index]
+            todos.pop(index)
 
-        with open('to_do_list.txt', 'w') as file:
-            file.writelines(todos)
+            with open('to_do_list.txt', 'w') as file:
+                file.writelines(todos)
 
-        print(f'{to_complete} was completed.')
+            print(f'{to_complete} was completed.')
+        except IndexError:
+            print('There is no item with that number!')
+            continue
 
-    elif 'exit' in user_action:
+    elif user_action.startswith('exit'):
         break
 
     else:
