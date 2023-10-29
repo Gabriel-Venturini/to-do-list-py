@@ -1,3 +1,13 @@
+def get_todos():
+    with open('to_do_list.txt', 'r') as file_local:
+            todos_local = file_local.readlines()
+    return todos_local
+
+
+def write_todos(todos_local):
+    with open('to_do_list.txt', 'w') as file_local:
+            file_local.writelines(todos_local)
+
 
 while True:
     user_action = input('Type add, show, edit, complete or exit: ')
@@ -5,55 +15,36 @@ while True:
 
     if user_action.startswith('add'):
         todo = user_action[4:] + '\n'
-
-        with open('to_do_list.txt', 'r') as file:
-            todos = file.readlines()
-
+        todos = get_todos()
         todos.append(todo.title())
-
-        with open('to_do_list.txt', 'w') as file:
-            file.writelines(todos)
+        write_todos(todos)
 
     elif user_action.startswith('show'):
-        with open('to_do_list.txt', 'r') as file:
-            todos = file.readlines()
-
+        todos = get_todos()
         for index, item in enumerate(todos):
             item = f'{index + 1}-{item}'.strip('\n')
             print(item)
 
     elif user_action.startswith('edit'):
         try:
-            with open('to_do_list.txt', 'r') as file:
-                todos = file.readlines()
-
+            todos = get_todos()
             number = int(user_action[5:])
             number -= 1
-
             new_todo = input('Enter new to-do: ')
             todos[number] = new_todo.title() + '\n'
-
-            with open('to_do_list.txt', 'w') as file:
-                file.writelines(todos)
+            write_todos(todos)
         except ValueError:
             print('Your command is not valid!')
             continue
 
     elif user_action.startswith('complete'):
         try:
-            with open('to_do_list.txt', 'r') as file:
-                todos = file.readlines()
-
+            todos = get_todos()
             number = user_action[9:]
-            index = int(number)
-            index -= 1
-
+            index = int(number) - 1 # - 1 for the user input be correct with the syntax
             to_complete = todos[index]
             todos.pop(index)
-
-            with open('to_do_list.txt', 'w') as file:
-                file.writelines(todos)
-
+            write_todos(todos)
             print(f'{to_complete} was completed.')
         except IndexError:
             print('There is no item with that number!')
