@@ -1,11 +1,17 @@
-def get_todos():
-    with open('to_do_list.txt', 'r') as file_local:
+def get_todos(file_path='to_do_list.txt'):
+    '''' Read a text file and returns
+    the list of to-do items.
+    '''
+    with open(file_path, 'r') as file_local:
             todos_local = file_local.readlines()
     return todos_local
 
 
-def write_todos(todos_local):
-    with open('to_do_list.txt', 'w') as file_local:
+def write_todos(todos_local, file_path='to_do_list.txt'):
+    '''' Receive an argument with the to-do items list
+    and writes it in a text file.
+    '''
+    with open(file_path, 'w') as file_local:
             file_local.writelines(todos_local)
 
 
@@ -17,7 +23,7 @@ while True:
         todo = user_action[4:] + '\n'
         todos = get_todos()
         todos.append(todo.title())
-        write_todos(todos)
+        write_todos(todos_local=todos)
 
     elif user_action.startswith('show'):
         todos = get_todos()
@@ -32,7 +38,7 @@ while True:
             number -= 1
             new_todo = input('Enter new to-do: ')
             todos[number] = new_todo.title() + '\n'
-            write_todos(todos)
+            write_todos(todos_local=todos)
         except ValueError:
             print('Your command is not valid!')
             continue
@@ -44,7 +50,7 @@ while True:
             index = int(number) - 1 # - 1 for the user input be correct with the syntax
             to_complete = todos[index]
             todos.pop(index)
-            write_todos(todos)
+            write_todos(todos_local=todos)
             print(f'{to_complete} was completed.')
         except IndexError:
             print('There is no item with that number!')
