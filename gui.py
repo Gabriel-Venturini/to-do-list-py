@@ -12,10 +12,10 @@ input_box = psg.InputText(tooltip="Enter to-do", key="to-do")
 list_box = psg.Listbox(values=file_editor.get_todos(), key="items", 
                        enable_events=True, size=[45, 10])
 
-add_button = psg.Button("Add")
-exit_button = psg.Button("Exit")
-edit_button = psg.Button("Edit")
-complete_button = psg.Button("Complete")
+add_button = psg.Button("Add", mouseover_colors="LightBlue2")
+exit_button = psg.Button("Exit", mouseover_colors="LightBlue2")
+edit_button = psg.Button("Edit", mouseover_colors="LightBlue2")
+complete_button = psg.Button("Complete", mouseover_colors="LightBlue2")
 
 layout =[[label_clock],
         [label], 
@@ -30,12 +30,15 @@ while True:
     window["clock"].update(value=time.strftime("%d/%m/%Y - %H:%M:%S"))
     match event:
         case 'Add':
-            todos = file_editor.get_todos()
-            new_todo = value["to-do"] + "\n"
-            todos.append(new_todo.title())
-            file_editor.write_todos(todos)
-            window["items"].update(values=todos)
-            window["to-do"].update(value='')
+            if value["to-do"] == "" or value["to-do"] == " ":
+                psg.popup("Please select an item first!", font=("Helvetica", 15))
+            else:
+                todos = file_editor.get_todos()
+                new_todo = value["to-do"] + "\n"
+                todos.append(new_todo.title())
+                file_editor.write_todos(todos)
+                window["items"].update(values=todos)
+                window["to-do"].update(value='')
         case 'Edit':
             try:
                 todo_to_edit = value["items"][0]
