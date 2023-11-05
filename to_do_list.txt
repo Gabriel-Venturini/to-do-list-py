@@ -2,3 +2,5 @@ Learn Git
 Have Fun Learning
 Create New Modules
 Optimize The Code
+Fix More Bugs
+Study Harder Today
