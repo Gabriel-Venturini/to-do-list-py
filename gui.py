@@ -9,11 +9,14 @@ list_box = psg.Listbox(values=file_editor.get_todos(), key="items",
 add_button = psg.Button("Add")
 exit_button = psg.Button("Exit")
 edit_button = psg.Button("Edit")
+complete_button = psg.Button("Complete")
 
+layout =[[label], 
+         [input_box, add_button], 
+         [list_box, edit_button, complete_button], 
+         [exit_button]]
 
-window = psg.Window('To Do List',  
-                    layout=[[label], [input_box, add_button], [list_box, edit_button], [exit_button]], 
-                    font=('Helvetica', 15))
+window = psg.Window('To Do List',  layout=layout, font=('Helvetica', 15))
 
 while True:
     event, value = window.read()
@@ -23,7 +26,7 @@ while True:
             new_todo = value["to-do"] + "\n"
             todos.append(new_todo.title())
             file_editor.write_todos(todos)
-            window["items"].update(values=get_todos)
+            window["items"].update(values=todos)
         case 'Edit':
             todo_to_edit = value["items"][0]
             new_todo = value["to-do"]
@@ -32,6 +35,13 @@ while True:
             get_todos[get_index] = new_todo.title() + "\n"
             file_editor.write_todos(get_todos)
             window["items"].update(values=get_todos)
+        case 'Complete':
+            todo_to_complete = value["items"][0]
+            todos = file_editor.get_todos()
+            todos.remove(todo_to_complete)
+            file_editor.write_todos(todos)
+            window["items"].update(values=todos)
+            window["to-do"].update(value='')
         case 'items':
             window["to-do"].update(value=value["items"][0])
         case 'Exit':
