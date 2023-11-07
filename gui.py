@@ -6,25 +6,33 @@ import time
 # psg.theme("BlueMono") clear mode
 psg.theme("DarkBlue")
 
+# LABEL
 label_clock = psg.Text("", key="clock")
 label = psg.Text("Type in a to-do")
+
+# BOXES
 input_box = psg.InputText(tooltip="Enter to-do", key="to-do")
 list_box = psg.Listbox(values=file_editor.get_todos(), key="items", 
                        enable_events=True, size=[45, 10])
 
-add_button = psg.Button("Add", mouseover_colors="LightBlue2")
-exit_button = psg.Button("Exit", mouseover_colors="LightBlue2")
-edit_button = psg.Button("Edit", mouseover_colors="LightBlue2")
-complete_button = psg.Button("Complete", mouseover_colors="LightBlue2")
+# BUTTONS
+add_button = psg.Button("Add", mouseover_colors="LightBlue2", size=[10,2])
+exit_button = psg.Button("Exit", mouseover_colors="LightBlue2", size=[10,2])
+edit_button = psg.Button("Edit", mouseover_colors="LightBlue2", size=[10,2])
+complete_button = psg.Button("Complete", mouseover_colors="LightBlue2", size=[10,2])
 
+# COLUMNS
+col1 = psg.Column([[add_button], [edit_button], [complete_button]])
+col2 = psg.Column([[input_box], [list_box], [exit_button]])
+
+# WINDOW LAYOUT
 layout =[[label_clock],
         [label], 
-         [input_box, add_button], 
-         [list_box, edit_button, complete_button], 
-         [exit_button]]
+        [col2, col1]]
 
 window = psg.Window('To Do List',  layout=layout, font=('Helvetica', 15))
 
+# OPERATION
 while True:
     event, value = window.read(timeout=200)
     window["clock"].update(value=time.strftime("%d/%m/%Y - %H:%M:%S"))
