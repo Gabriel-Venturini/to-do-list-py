@@ -8,7 +8,11 @@ I will start working on some other projects but I will update this one in the fu
 
 # Objectives:
   Upgrade the code and structure as I am learning.
+  
   Make it more user-friendly OK.
+  
   Create a GUI and buttons with it OK.
+  
   Create a website version of it OK.
+  
   Learn Git and improve programming concepts.
