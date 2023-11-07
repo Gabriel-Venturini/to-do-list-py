@@ -18,9 +18,14 @@ st.title('To-Do App')
 st.write('Did you finish something today?')
 
 for todo in todos:
-    st.checkbox(todo)
+    checkbox = st.checkbox(todo, key=todo)
+    if checkbox: # if item == True then remove the item
+        todos.remove(todo)
+        file_editor.write_todos(todos)
+        del st.session_state[todo]
+        st.experimental_rerun() # rerun the listbox
 
 new_todo = st.text_input(label='', placeholder='Add a new to-do...',
 on_change=add_todo, key='new_todo')
 
-st.session_state
+st.session_state # print log
